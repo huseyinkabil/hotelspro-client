@@ -86,4 +86,4 @@ print _coral.search({"pax": "1", "checkin": "2016-09-30",
 ```
 
 **notes**
-check out examples for other methods.
+- check out examples for other methods.
