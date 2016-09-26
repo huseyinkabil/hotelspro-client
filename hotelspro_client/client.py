@@ -17,7 +17,7 @@ class Coral(object):
     def _authenticate(self):
         """ This private method authenticate requests library.
 
-            :return session object -- Authenticated requests session object.
+            :returns session object -- Authenticated requests session object.
         """
         ses = requests.session()
         ses.auth = (self.api_user, self.api_pass)
