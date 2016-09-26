@@ -6,6 +6,13 @@ print _coral.search({"pax": "1", "checkin": "2016-09-30",
                      "checkout": "2016-10-03", "currency": "USD",
                      "destination_code": "11260", "client_nationality": "tr"})
 
-print _coral.availability("E186IT4ZIAAAAAAAAAAAAAAAAAAAAAAAAAHAv0z5f1sESqaj3TH\
-                          _Hjv9uyAAAAAAAAAAAAAAAATDQAAAAAPF0EBAAOmoe41a0ghJAAI\
-                          AgAAAAAAAAAAABA")
+print _coral.availability("E186IT4ZIAAAAAAAAAAAAAAAAAAAAAAAAAHAv0z5f1sESqaj\
+                           3TH_Hjv9uyAAAAAAAAAAAAAAAATDQAAAAAPF0EBAAOmoe41a0\
+                           ghJAAIAgAAAAAAAAAAABA")
+
+provision_resp = _coral.provision("E186IT4ZIAAAAAAAAAAAAAAAAAAAAAAAAAHAv0z\
+                                   5f1sESqaj3TH_Hjv9uyAAAAAAAAAAAAAAAATDQAA\
+                                   AAAPF0EBAAOmoe41a0ghJAAIAgAAAAAAAAAAABA")
+print provision_resp
+
+print _coral.book(provision_resp[u'code'], {"name": "1,Huseyin,Kabil,adult"})

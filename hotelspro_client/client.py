@@ -21,7 +21,7 @@ class Coral(object):
     def _generate_url(self, action, params):
         if params:
             if not isinstance(params, dict):
-                raise TypeError("params variable should be a dictionary.")
+                raise TypeError("params variable should be a dictionary!")
 
         q_str = ""
         for k, v in params.items():
@@ -29,16 +29,25 @@ class Coral(object):
         url = "{}{}/?{}".format(self.API_BASE_URL, action, q_str[:-1])
         return url
 
-    def search(self, params):
-        """ doctstring """
-        resp = self.req_session.get(self._generate_url("search", params))
-        return resp.json()
-
-    def availability(self, production_code):
-        """ docstring """
-        if not production_code:
+    def _check_production_code(self, prod_code):
+        if not prod_code:
             raise StandardError("production_code is required!")
 
+    def search(self, payload):
+        """ doctstring """
+        resp = self.req_session.get(self._generate_url("search", payload))
+        return resp.json()
+
+    def availability(self, prod_code):
+        """ docstring """
+        self._check_production_code(prod_code)
         resp = self.req_session.get(self.API_BASE_URL + "availability/" +
-                                    production_code)
+                                    prod_code)
+        return resp.json()
+
+    def provision(self, prod_code):
+        """ docstring """
+        self._check_production_code(prod_code)
+        resp = self.req_session.post(self.API_BASE_URL + "provision/" +
+                                     prod_code)
         return resp.json()
