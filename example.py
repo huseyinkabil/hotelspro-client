@@ -22,4 +22,7 @@ book_resp = _coral.book(provision_resp[u'code'],
 print book_resp
 print "======================="
 
+# print _coral.bookings()  # list all consumer's bookings
+# print _coral.bookings(book_resp[u'code'])
+
 print _coral.cancel(book_resp[u'code'])

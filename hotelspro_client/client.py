@@ -70,3 +70,11 @@ class Coral(object):
             raise StandardError("book_code is required for the cancellation!")
         resp = self.req_session.post(self.API_BASE_URL + "cancel/" + book_code)
         return resp.json()
+
+    def bookings(self, code=""):
+        """ docstring """
+        if not code:
+            resp = self.req_session.get(self.API_BASE_URL + "bookings")
+
+        resp = self.req_session.get(self.API_BASE_URL + "bookings/" + code)
+        return resp.json()
