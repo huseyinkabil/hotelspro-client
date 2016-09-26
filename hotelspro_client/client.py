@@ -52,12 +52,21 @@ class Coral(object):
                                      prod_code)
         return resp.json()
 
-    def book(self, prod_code, pax):
+    def book(self, prov_code, pax):
         """ docstring """
-        self._check_production_code(prod_code)
-        if pax and not isinstance(pax, dict):
+        if not prov_code and not pax:
+            raise StandardError("provision code and pax information\
+                                 is required!")
+        if not isinstance(pax, dict):
             raise StandardError("pax must be a dictionary!")
 
-        resp = self.req_session.post(self.API_BASE_URL + "book/" + prod_code,
+        resp = self.req_session.post(self.API_BASE_URL + "book/" + prov_code,
                                      data=pax)
+        return resp.json()
+
+    def cancel(self, book_code):
+        """ docstring """
+        if not book_code:
+            raise StandardError("book_code is required for the cancellation!")
+        resp = self.req_session.post(self.API_BASE_URL + "cancel/" + book_code)
         return resp.json()
