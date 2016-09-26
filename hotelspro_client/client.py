@@ -51,3 +51,13 @@ class Coral(object):
         resp = self.req_session.post(self.API_BASE_URL + "provision/" +
                                      prod_code)
         return resp.json()
+
+    def book(self, prod_code, pax):
+        """ docstring """
+        self._check_production_code(prod_code)
+        if pax and not isinstance(pax, dict):
+            raise StandardError("pax must be a dictionary!")
+
+        resp = self.req_session.post(self.API_BASE_URL + "book/" + prod_code,
+                                     data=pax)
+        return resp.json()
