@@ -7,8 +7,17 @@ A python client library for <a href="https://api.hotelspro.com">HotelsPro</a>
 ===================
 
 ```bash
-$ (sudo) pip install hotelspro-client
+$ python setup.py install
 ```
+
+or
+
+```bash
+$ (sudo) pip install -e /path/to/directory
+```
+
+***notes***
+- If you are using virtualenv you don't need to use sudo command.
 
 ### Usage
 ```python
