@@ -124,8 +124,8 @@ class Coral(object):
             :param code (*)(str): a specific booking code.
             :returns json -- All consumer's bookings or specific booking info.
         """
-        if not code:
-            resp = self.req_session.get(self.API_BASE_URL + "bookings")
-
-        resp = self.req_session.get(self.API_BASE_URL + "bookings/" + code)
+        url = self.API_BASE_URL + "bookings/"
+        if code:
+            url += code
+        resp = self.req_session.get(url)
         return resp.json()
