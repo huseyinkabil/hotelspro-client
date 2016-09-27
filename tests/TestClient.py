@@ -5,10 +5,9 @@ from hotelspro_client.client import Coral
 
 
 class TestClient(TestCase):
-    _hotel_code = "135f3a"
-    _prod_code = "E186IT4ZIAAAAAAAAAAAAAAAAAAAAAAAAAHAFoZDD7QySpWRdgAOd1N4ISAA\
-                  AAAAAAAAAAAAABDsgAAAAA1n0EDAABega-f8ar_mAAIgAAAAAAAAAAAABA"
-    _book_code = "BXN72UMAT9YZ"
+    _hotel_code = "HOTEL_CODE"
+    _prod_code = "PRODUCTION_CODE"
+    _book_code = "BOOK_CODE"
 
     def __init__(self, *args, **kwargs):
         self._coral = Coral("API_USERNAME", "API_PASSWORD")
