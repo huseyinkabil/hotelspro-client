@@ -96,7 +96,7 @@ class Coral(object):
             :param pax (*)(json): Customer information.
             :returns json -- Booking informations.
         """
-        if not prov_code and not pax:
+        if not prov_code or not pax:
             raise StandardError("provision code and pax information\
                                  is required!")
         if not isinstance(pax, dict):
