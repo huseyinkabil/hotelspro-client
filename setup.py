@@ -5,7 +5,7 @@ setup(
     version='1.1.0',
     packages=find_packages(),
     url='https://github.com/huseyinkabil/hotelspro-client',
-    license='MIT',
+    license='GNU GPLv3',
     author='Huseyin Kabil',
     author_email='hsynkabil@gmail.com',
     description='Hotelspro.com api client',
