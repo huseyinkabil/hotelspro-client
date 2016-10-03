@@ -23,7 +23,7 @@ $ (sudo) pip install -e /path/to/directory
 ```python
 from hotelspro_client.client import Coral
 
-_coral = Coral("API_USERNAME", "API_PASSWORD")
+_coral = Coral("API_URL", "API_USERNAME", "API_PASSWORD")
 
 ```
 **example call: search()**
