@@ -26,23 +26,6 @@ class Coral(object):
         ses.auth = (self.api_user, self.api_pass)
         return ses
 
-    def _generate_url(self, endpoint, params):
-        """ This private method generates a GET url with payload.
-
-            :param endpoint (*)(str): API endpoint.
-            :param params (*)(dict): payload parameters.
-            :returns str -- Url encoded query string.
-        """
-        if params:
-            if not isinstance(params, dict):
-                raise TypeError("params variable should be a dictionary!")
-
-        q_str = ""
-        for k, v in params.items():
-            q_str += "{}={}&".format(k, v)
-        url = "{}{}/?{}".format(self.API_BASE_URL, endpoint, q_str[:-1])
-        return url
-
     def _check_production_code(self, prod_code):
         """ This private method checks prod_code.
 
@@ -61,7 +44,8 @@ class Coral(object):
                               nationality.
             :returns json -- Detailed search result.
         """
-        resp = self.req_session.get(self._generate_url("search", payload))
+        resp = self.req_session.get(self.API_BASE_URL + "search",
+                                    params=payload)
         return resp.json()
 
     def availability(self, prod_code):
