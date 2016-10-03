@@ -10,7 +10,7 @@ class TestClient(TestCase):
     _book_code = "BOOK_CODE"
 
     def __init__(self, *args, **kwargs):
-        self._coral = Coral("API_USERNAME", "API_PASSWORD")
+        self._coral = Coral("API_URL", "API_USERNAME", "API_PASSWORD")
         self._search_resp = self._coral.search({"pax": "1",
                                                 "checkin": "2016-09-30",
                                                 "checkout": "2016-10-03",
