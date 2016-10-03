@@ -1,9 +1,9 @@
 from hotelspro_client.client import Coral
 
-_coral = Coral("API_USERNAME", "API_PASSWORD")
+_coral = Coral("http://localhost:8000/api/v2/", "API_USERNAME", "API_PASSWORD")
 
-search_resp = _coral.search({"pax": "1", "checkin": "2016-09-30",
-                             "checkout": "2016-10-03", "currency": "USD",
+search_resp = _coral.search({"pax": "1", "checkin": "2016-10-05",
+                             "checkout": "2016-10-10", "currency": "USD",
                              "hotel_code": "135f3a",
                              "client_nationality": "tr"})
 print search_resp

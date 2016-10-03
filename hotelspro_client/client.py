@@ -6,10 +6,13 @@ import requests
 class Coral(object):
     """ A python client library for HotelsPro. """
 
-    API_BASE_URL = "http://localhost:8000/api/v2/"
-
-    def __init__(self, username=None, password=None):
+    def __init__(self, api_url="http://localhost:8000/api/v2/", username=None,
+                 password=None):
         """ Initialization method. """
+
+        if api_url:
+            self.API_BASE_URL = api_url
+
         self.api_user = username
         self.api_pass = password
         self.req_session = self._authenticate()
