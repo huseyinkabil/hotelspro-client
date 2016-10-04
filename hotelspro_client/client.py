@@ -10,9 +10,7 @@ class Coral(object):
                  password=None):
         """ Initialization method. """
 
-        if api_url:
-            self.API_BASE_URL = api_url
-
+        self.API_BASE_URL = api_url
         self.api_user = username
         self.api_pass = password
         self.req_session = self._authenticate()
@@ -26,14 +24,6 @@ class Coral(object):
         ses.auth = (self.api_user, self.api_pass)
         return ses
 
-    def _check_production_code(self, prod_code):
-        """ This private method checks prod_code.
-
-            :param (*)(str): production code.
-        """
-        if not prod_code:
-            raise StandardError("production_code is required!")
-
     def search(self, payload):
         """ This method is used for getting hotel information and properties on
             a specific date range (check-out - check-in), with a designated
@@ -44,53 +34,60 @@ class Coral(object):
                               nationality.
             :returns json -- Detailed search result.
         """
+        assert payload or isinstance(payload, dict), "Payload is required and \
+must be a dict"
         resp = self.req_session.get(self.API_BASE_URL + "search",
                                     params=payload)
+        assert resp.status_code == 200, resp.text
+        assert resp.json()['count'] >= 1, "There is no hotel!"
+
         return resp.json()
 
-    def availability(self, prod_code):
+    def availability(self, product_code):
         """ This method is used for getting information of a hotel(s) room
             availability via GET from /availability endpoint.
 
-            :param prod_code (*)(str): A code coming from searching step.
+            :param product_code (*)(str): A code coming from searching step.
             :returns json -- Result of availability step.
         """
-        self._check_production_code(prod_code)
+        assert product_code, "Product code is required!"
         resp = self.req_session.get(self.API_BASE_URL + "availability/" +
-                                    prod_code)
+                                    product_code)
+        assert resp.status_code == 200, resp.text
+
         return resp.json()
 
-    def provision(self, prod_code):
+    def provision(self, product_code):
         """ This method is used to get the last second information of the
             product that either it is available or not by POST method.
 
-            :param prod_code (str): A code coming from searching step.
+            :param product_code (str): A code coming from searching step.
             :returns json -- If the product is available, this method returns
                              with provision code.
         """
-        self._check_production_code(prod_code)
+        assert product_code, "Product code is required!"
         resp = self.req_session.post(self.API_BASE_URL + "provision/" +
-                                     prod_code)
+                                     product_code)
+        assert resp.status_code == 200, resp.text
+
         return resp.json()
 
-    def book(self, prov_code, pax):
+    def book(self, provision_code, pax):
         """ This method is the fourth and last step of hotel booking.
             The method is used to book a product that have made sure
             available with 'Provision' request. Carry the unique code which
             has got from Provision response.
 
-            :param prov_code (*)(str): A code coming from provision step.
+            :param provision_code (*)(str): A code coming from provision step.
             :param pax (*)(json): Customer information.
             :returns json -- Booking informations.
         """
-        if not prov_code or not pax:
-            raise StandardError("provision code and pax information\
-                                 is required!")
-        if not isinstance(pax, dict):
-            raise StandardError("pax must be a dictionary!")
+        assert provision_code and pax, "provision code and pax is required!"
+        assert isinstance(pax, dict), "pax must be a dictionary!"
+        resp = self.req_session.post(self.API_BASE_URL + "book/" +
+                                     provision_code, data=pax)
+        assert resp.status_code == 200, resp.text
 
-        resp = self.req_session.post(self.API_BASE_URL + "book/" + prov_code,
-                                     data=pax)
         return resp.json()
 
     def cancel(self, book_code):
@@ -99,20 +96,24 @@ class Coral(object):
             :param book_code (*)(str): Value from the booking response.
             :returns json -- Cancellation process results.
         """
-        if not book_code:
-            raise StandardError("book_code is required for the cancellation!")
+        assert book_code, "book_code is required for the cancellation!"
         resp = self.req_session.post(self.API_BASE_URL + "cancel/" + book_code)
+
+        assert resp.status_code == 200, resp.text
+
         return resp.json()
 
-    def bookings(self, code=""):
+    def bookings(self, book_code=""):
         """ This method is also known for 'booking list' and
             it is for retrieving past booking data.
 
-            :param code (*)(str): a specific booking code.
+            :param book_code (str): a specific booking code.
             :returns json -- All consumer's bookings or specific booking info.
         """
         url = self.API_BASE_URL + "bookings/"
-        if code:
-            url += code
+        if book_code:
+            url += book_code
         resp = self.req_session.get(url)
+        assert resp.status_code == 200, resp.text
+
         return resp.json()

@@ -1,28 +1,33 @@
 from hotelspro_client.client import Coral
 
-_coral = Coral("http://localhost:8000/api/v2/", "API_USERNAME", "API_PASSWORD")
+coral = Coral(username="API_USERNAME", password="API_PASSWORD")
 
-search_resp = _coral.search({"pax": "1", "checkin": "2016-10-05",
-                             "checkout": "2016-10-10", "currency": "USD",
-                             "hotel_code": "135f3a",
-                             "client_nationality": "tr"})
+search_resp = coral.search({"pax": "1", "checkin": "2016-10-05",
+                            "checkout": "2016-10-10", "currency": "USD",
+                            "destination_code": "18faa",
+                            "client_nationality": "tr"})
+print "=" * 10, "SEARCH", "=" * 10
 print search_resp
-print "======================="
 
 prod_code = search_resp[u'results'][0][u'products'][0][u'code']
 
-print _coral.availability(prod_code)
+print "=" * 10, "AVAILABILITY", "=" * 10
+print coral.availability(prod_code)
 
-provision_resp = _coral.provision(prod_code)
+provision_resp = coral.provision(prod_code)
+print "=" * 10, "PROVISION", "=" * 10
 print provision_resp
-print "======================="
 
-book_resp = _coral.book(provision_resp[u'code'],
-                        {"name": "1,Huseyin,Kabil,adult"})
+book_resp = coral.book(provision_resp[u'code'],
+                       {"name": "1,Huseyin,Kabil,adult"})
+print "=" * 10, "BOOK", "=" * 10
 print book_resp
-print "======================="
 
-# print _coral.bookings()  # list all consumer's bookings
-# print _coral.bookings(book_resp[u'code'])
+print "=" * 10, "CANCELLATION", "=" * 10
+print coral.cancel(book_resp[u'code'])
 
-print _coral.cancel(book_resp[u'code'])
+# print "=" * 50
+# print "BOOKINGS"
+# print "=" * 50
+# print coral.bookings()  # list all consumer's bookings
+# print coral.bookings(book_resp[u'code'])
