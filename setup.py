@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='hotelspro_client',
-    version='1.1.0',
+    version='1.2.0',
     packages=find_packages(),
     url='https://github.com/huseyinkabil/hotelspro-client',
     license='GNU GPLv3',
