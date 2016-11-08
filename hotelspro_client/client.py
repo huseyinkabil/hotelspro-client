@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import json
 
 
 class Coral(object):
@@ -38,8 +39,8 @@ class Coral(object):
 must be a dict"
         resp = self.req_session.get(self.API_BASE_URL + "search",
                                     params=payload)
-        assert resp.status_code == 200, resp.text
-        assert resp.json()['count'] >= 1, "There is no hotel!"
+        if resp.status_code != 200:
+            return json.loads(resp.text)
 
         return resp.json()
 
@@ -53,7 +54,8 @@ must be a dict"
         assert product_code, "Product code is required!"
         resp = self.req_session.get(self.API_BASE_URL + "availability/" +
                                     product_code)
-        assert resp.status_code == 200, resp.text
+        if resp.status_code != 200:
+            return json.loads(resp.text)
 
         return resp.json()
 
@@ -68,7 +70,8 @@ must be a dict"
         assert product_code, "Product code is required!"
         resp = self.req_session.post(self.API_BASE_URL + "provision/" +
                                      product_code)
-        assert resp.status_code == 200, resp.text
+        if resp.status_code != 200:
+            return json.loads(resp.text)
 
         return resp.json()
 
@@ -86,7 +89,8 @@ must be a dict"
         assert isinstance(pax, dict), "pax must be a dictionary!"
         resp = self.req_session.post(self.API_BASE_URL + "book/" +
                                      provision_code, data=pax)
-        assert resp.status_code == 200, resp.text
+        if resp.status_code != 200:
+            return json.loads(resp.text)
 
         return resp.json()
 
@@ -99,7 +103,8 @@ must be a dict"
         assert book_code, "book_code is required for the cancellation!"
         resp = self.req_session.post(self.API_BASE_URL + "cancel/" + book_code)
 
-        assert resp.status_code == 200, resp.text
+        if resp.status_code != 200:
+            return json.loads(resp.text)
 
         return resp.json()
 
@@ -114,6 +119,7 @@ must be a dict"
         if book_code:
             url += book_code
         resp = self.req_session.get(url)
-        assert resp.status_code == 200, resp.text
+        if resp.status_code != 200:
+            return json.loads(resp.text)
 
         return resp.json()
